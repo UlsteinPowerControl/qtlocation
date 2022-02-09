@@ -53,6 +53,7 @@
 #include <QtLocation/private/qgeomap_p.h>
 #include <QtLocation/private/qgeocameradata_p.h>
 #include <QtLocation/private/qgeomaptype_p.h>
+#include <QtLocation/private/qgeotiledmapscene_p.h>
 
 #include <QtPositioning/private/qdoublevector2d_p.h>
 
@@ -64,6 +65,7 @@ class QAbstractGeoTileCache;
 class QGeoTiledMapPrivate;
 class QGeoTiledMappingManagerEngine;
 class QGeoTileRequestManager;
+class QGeoCameraTiles;
 
 class QQuickWindow;
 class QSGNode;
@@ -75,7 +77,7 @@ class Q_LOCATION_PRIVATE_EXPORT QGeoTiledMap : public QGeoMap
     Q_OBJECT
     Q_DECLARE_PRIVATE(QGeoTiledMap)
 public:
-    enum PrefetchStyle { NoPrefetching, PrefetchNeighbourLayer, PrefetchTwoNeighbourLayers };
+    enum PrefetchStyle { NoPrefetching, PrefetchNeighbourLayer, PrefetchTwoNeighbourLayers, CustomPrefetch };
     QGeoTiledMap(QGeoTiledMappingManagerEngine *engine, QObject *parent);
     virtual ~QGeoTiledMap();
 
@@ -96,7 +98,7 @@ public Q_SLOTS:
 protected:
     QSGNode *updateSceneGraph(QSGNode *, QQuickWindow *window) override;
     virtual void evaluateCopyrights(const QSet<QGeoTileSpec> &visibleTiles);
-
+    virtual void customPrefetch(QGeoCameraTiles *prefetchTiles, QGeoCameraTiles *visibleTiles, QGeoTiledMapScene *mapScene, int minZoomLevel, int maxZoomLevel);
     QGeoTiledMap(QGeoTiledMapPrivate &dd, QGeoTiledMappingManagerEngine *engine, QObject *parent);
 
 private Q_SLOTS:

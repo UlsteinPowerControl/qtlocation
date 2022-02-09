@@ -186,6 +186,15 @@ void QGeoTiledMap::evaluateCopyrights(const QSet<QGeoTileSpec> &visibleTiles)
     Q_UNUSED(visibleTiles);
 }
 
+void QGeoTiledMap::customPrefetch(QGeoCameraTiles* prefetchTiles, QGeoCameraTiles* visibleTiles, QGeoTiledMapScene *mapScene, int minZoomLevel, int maxZoomLevel)
+{
+    Q_UNUSED(prefetchTiles);
+    Q_UNUSED(visibleTiles);
+    Q_UNUSED(mapScene);
+    Q_UNUSED(minZoomLevel);
+    Q_UNUSED(maxZoomLevel);
+}
+
 QGeoTiledMapPrivate::QGeoTiledMapPrivate(QGeoTiledMappingManagerEngine *engine)
     : QGeoMapPrivate(engine, new QGeoProjectionWebMercator),
       m_cache(engine->tileCache()),
@@ -263,6 +272,12 @@ void QGeoTiledMapPrivate::prefetchTiles()
                 m_prefetchTiles->setViewExpansion(1.0);
                 tiles += m_prefetchTiles->createTiles();
             }
+        }
+            break;
+
+        case QGeoTiledMap::CustomPrefetch: {
+            Q_Q(QGeoTiledMap);
+            q->customPrefetch(m_prefetchTiles, m_visibleTiles, m_mapScene, m_minZoomLevel, m_maxZoomLevel);
         }
             break;
 

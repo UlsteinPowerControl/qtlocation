@@ -231,6 +231,12 @@ void QGeoTiledMapPrivate::prefetchTiles()
 {
     if (m_tileRequests && m_prefetchStyle != QGeoTiledMap::NoPrefetching) {
 
+        if (m_prefetchStyle == QGeoTiledMap::CustomPrefetch) {
+            Q_Q(QGeoTiledMap);
+            q->customPrefetch(m_prefetchTiles, m_visibleTiles, m_mapScene, m_minZoomLevel, m_maxZoomLevel);
+            return;
+        }
+
         QSet<QGeoTileSpec> tiles;
         QGeoCameraData camera = m_visibleTiles->cameraData();
         int currentIntZoom = static_cast<int>(std::floor(camera.zoomLevel()));
@@ -272,12 +278,6 @@ void QGeoTiledMapPrivate::prefetchTiles()
                 m_prefetchTiles->setViewExpansion(1.0);
                 tiles += m_prefetchTiles->createTiles();
             }
-        }
-            break;
-
-        case QGeoTiledMap::CustomPrefetch: {
-            Q_Q(QGeoTiledMap);
-            q->customPrefetch(m_prefetchTiles, m_visibleTiles, m_mapScene, m_minZoomLevel, m_maxZoomLevel);
         }
             break;
 

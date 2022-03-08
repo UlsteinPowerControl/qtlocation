@@ -75,6 +75,7 @@ QGeoTiledMap::QGeoTiledMap(QGeoTiledMappingManagerEngine *engine, QObject *paren
 QGeoTiledMap::QGeoTiledMap(QGeoTiledMapPrivate &dd, QGeoTiledMappingManagerEngine *engine, QObject *parent)
     : QGeoMap(dd, parent)
 {
+test
     Q_D(QGeoTiledMap);
 
     d->m_tileRequests = new QGeoTileRequestManager(this, engine);
